@@ -1,8 +1,20 @@
 <html>
 <head>
   <title>SecureLift Demo</title>
-  <!-- Meta Pixel Code -->
   <script>
+    (function() {
+      const key = 'cohorts_id';
+        if (!localStorage.getItem(key)) {
+          const cohorts = [
+            "33917","45873","15551","56448","19425","default"
+          ];
+        localStorage.setItem(key, JSON.stringify(cohorts));
+        console.log(`Set localStorage key '${key}' with cohorts array.`);
+      } else {
+        console.log(`localStorage key '${key}' already exists.`);
+      }
+     })();
+
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
