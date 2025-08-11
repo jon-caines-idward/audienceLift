@@ -48,7 +48,7 @@
   }
 
   cohorts.forEach(cohortId => {
-    fbq('trackCustom', 'Anon_Audience', { audience_Id: '${cohortId}' });
+    fbq('trackCustom', 'Anon_Audience', { audience_Id: `${cohortId}` });
   });
 })();
   </script>
