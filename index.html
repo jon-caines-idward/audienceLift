@@ -25,6 +25,32 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '275230413602298'); 
     fbq('track', 'PageView');
+    (function() {
+  const key = 'cohort_Ids'; // adjust the key if needed
+  const data = localStorage.getItem(key);
+
+  if (!data) {
+    console.warn(`localStorage key '${key}' not found.`);
+    return;
+  }
+
+  let cohorts;
+  try {
+    cohorts = JSON.parse(data);
+  } catch (e) {
+    console.error(`Error parsing JSON from localStorage key '${key}':`, e);
+    return;
+  }
+
+  if (!Array.isArray(cohorts)) {
+    console.error(`Expected an array for key '${key}', but got:`, cohorts);
+    return;
+  }
+
+  cohorts.forEach(cohortId => {
+    console.log(`fbq('trackCustom', 'Anon_Audience', { audience_Id: '${cohortId}' })`);
+  });
+})();
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=275230413602298&ev=PageView&noscript=1"
