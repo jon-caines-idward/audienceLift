@@ -53,6 +53,12 @@
         console.error(`Error parsing JSON from localStorage key '${key1}':`, e);
         return;
       }
+      try {
+        anonId = data2;
+      } catch (e) {
+        console.error(`Error getting from localStorage key '${key2}':`, e);
+        return;
+      }
       if (!Array.isArray(cohorts)) {
         console.error(`Expected an array for key '${key1}', but got:`, cohorts);
         return;
