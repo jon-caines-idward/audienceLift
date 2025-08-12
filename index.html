@@ -24,7 +24,7 @@
         console.log(`localStorage key '${key1}' already exists.`);
       }
       const key2 = 'cuid';
-      if (!localstorage.getItem(key2)) {
+      if (!localStorage.getItem(key2)) {
         const cuid = sha256('test@test.com');
         localStorage.setItem(key2, cuid);
         console.log(`Set localStorage key '${key2}' with CUID.`);
