@@ -10,6 +10,7 @@ app.use(express.json());
 
 const FB_PIXEL_ID = process.env.FB_PIXEL_ID;
 const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
+const FB_PIXEL_VERSION = process.env.FB_PIXEL_VERSION;
 
 app.post('/anon-send-event', async (req, res) => {
     const { anon_cuid, audience_id } = req.body;
@@ -29,7 +30,7 @@ app.post('/anon-send-event', async (req, res) => {
     };
 
     try {
-        const fbResponse = await fetch(`https://graph.facebook.com/v20.0/${FB_PIXEL_ID}/events?access_token=${FB_ACCESS_TOKEN}`, {
+        const fbResponse = await fetch(`https://graph.facebook.com/${FB_PIXEL_VERSION}/${FB_PIXEL_ID}/events?access_token=${FB_ACCESS_TOKEN}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ data: [eventData] })
