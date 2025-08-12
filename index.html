@@ -2,17 +2,6 @@
 <head>
   <title>SecureLift Demo</title>
   <script>
-    // create example CUID if required
-    async function sha256(message) {
-      // encode as UTF-8
-      const msgBuffer = new TextEncoder().encode(message);
-      // hash the message
-      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-      // convert ArrayBuffer to hex string
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hashHex;
-    }
     // create LS keys if required
     (function() {
       const key1 = 'cohort_ids';
@@ -25,7 +14,7 @@
       }
       const key2 = 'cuid';
       if (!localStorage.getItem(key2)) {
-        const cuid = sha256('test@test.com');
+        const cuid = 'f660ab912ec121d1b1e928a0bb4bc61b15f5ad44d5efdc4e1c92a25e99b8e44a';
         localStorage.setItem(key2, cuid);
         console.log(`Set localStorage key '${key2}' with CUID.`);
       } else {
