@@ -2,55 +2,76 @@
 <head>
   <title>SecureLift Demo</title>
   <script>
+    // create example CUID if required
+    async function sha256(message) {
+      // encode as UTF-8
+      const msgBuffer = new TextEncoder().encode(message);
+      // hash the message
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      // convert ArrayBuffer to hex string
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+    // create LS keys if required
     (function() {
-      const key = 'cohort_ids';
-        if (!localStorage.getItem(key)) {
-          const cohorts = [
-            "33917","45873","15551","56448","19425","default"
-          ];
-        localStorage.setItem(key, JSON.stringify(cohorts));
-        console.log(`Set localStorage key '${key}' with cohorts array.`);
+      const key1 = 'cohort_ids';
+      if (!localStorage.getItem(key1)) {
+        const cohorts = ["33917","45873","15551","56448","19425","default"];          
+        localStorage.setItem(key1, JSON.stringify(cohorts));
+        console.log(`Set localStorage key '${key1}' with cohorts array.`);
       } else {
-        console.log(`localStorage key '${key}' already exists.`);
+        console.log(`localStorage key '${key1}' already exists.`);
       }
-     })();
-
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '275230413602298'); 
-    fbq('track', 'PageView');
-    (function() {
-  const key = 'cohort_ids'; // adjust the key if needed
-  const data = localStorage.getItem(key);
-
-  if (!data) {
-    console.warn(`localStorage key '${key}' not found.`);
-    return;
-  }
-
-  let cohorts;
-  try {
-    cohorts = JSON.parse(data);
-  } catch (e) {
-    console.error(`Error parsing JSON from localStorage key '${key}':`, e);
-    return;
-  }
-
-  if (!Array.isArray(cohorts)) {
-    console.error(`Expected an array for key '${key}', but got:`, cohorts);
-    return;
-  }
-
-  cohorts.forEach(cohortId => {
-    fbq('trackCustom', 'Anon_Audience', { audience_Id: cohortId });
-  });
-})();
+      const key2 = 'cuid';
+      if (!localstorage.getItem(key2)) {
+        const cuid = sha256('test@test.com');
+        localStorage.setItem(key2, cuid);
+        console.log(`Set localStorage key '${key2}' with CUID.`);
+      } else {
+        console.log(`localStorage key '${key2}' already exists.`);
+      }
+    })();
+    // facebook pixel code 
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '275230413602298'); 
+      fbq('track', 'PageView');
+      (function() {
+        const key1 = 'cohort_ids'; 
+        const key2 = 'CUID';
+        const data1 = localStorage.getItem(key1);
+        const data2 = localStorage.getItem(key2);
+        if (!data1) {
+          console.warn(`localStorage key '${key1}' not found.`);
+          return;
+        }
+        if (!data2) {
+          console.warn(`localStorage key '${key2}' not found.`);
+          return;
+        }
+      let cohorts;
+      let anonId;
+      try {
+        cohorts = JSON.parse(data1);
+      } catch (e) {
+        console.error(`Error parsing JSON from localStorage key '${key1}':`, e);
+        return;
+      }
+      if (!Array.isArray(cohorts)) {
+        console.error(`Expected an array for key '${key1}', but got:`, cohorts);
+        return;
+      }
+      cohorts.forEach(cohortId => {
+        fbq('trackCustom', 'Anon_Audience', { anon_cuid: anonId, audience_Id: cohortId });
+      });
+  })();
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=275230413602298&ev=PageView&noscript=1"
