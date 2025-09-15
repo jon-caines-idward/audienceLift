@@ -67,7 +67,7 @@
         fbq('trackCustom', 'Anon_Audience', { anon_cuid: anonId, audience_Id: cohortId });
         console.log('Sent custom event to pixel with params: ' + anonId + ', ' + cohortId);
         // WHere CAPI is implemented also POST to our Node server 
-        fetch('/server/server.js', {
+        fetch('https://5a4f5987-107b-4160-946a-16f8ffaba4a5-00-1bpn5nfgphkrm.spock.replit.dev/anon-send-event', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
