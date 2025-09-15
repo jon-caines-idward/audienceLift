@@ -6,7 +6,7 @@
     (function() {
       const key1 = 'cohort_ids';
       if (!localStorage.getItem(key1)) {
-        const cohorts = ["33917","45873","15551","56448","19425","default"];          
+        const cohorts = ["33917"];          
         localStorage.setItem(key1, JSON.stringify(cohorts));
         console.log(`Set localStorage key '${key1}' with cohorts array.`);
       } else {
@@ -65,6 +65,7 @@
       }
       cohorts.forEach(cohortId => {
         fbq('trackCustom', 'Anon_Audience', { anon_cuid: anonId, audience_Id: cohortId });
+        console.log('Sent custom event to pixel with params: ' + anonId + ', ' + cohortId);
         // WHere CAPI is implemented also POST to our Node server 
         fetch('/anon-send-event', {
             method: 'POST',
@@ -73,7 +74,8 @@
                 anon_cuid: anonId,
                 audience_id: cohortId
             })
-        });        
+        });
+        console.log('Sent custom event to CAPI with the params: ' + anonId + ', ' + cohortId);
       });
   })();
   </script>
