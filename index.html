@@ -81,7 +81,7 @@
                  console.log(`Error occured in S2S: ${response.status}`);
             }
             return response.json();
-         }
+         });
          console.log('Sent custom event to CAPI with the params: ' + anonId + ', ' + cohortId);
       });
   })();
