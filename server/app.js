@@ -10,7 +10,6 @@ app.use(express.json());
 const FB_PIXEL_ID = process.env.FB_PIXEL_ID;
 const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
 const FB_API_VERSION = process.env.FB_API_VERSION;
-const ANON_URL = process.env.ANON_URL;
 
 app.post(`${ANON_URL}`, async (req, res) => {
     const { anon_cuid, audience_id } = req.body;
