@@ -67,15 +67,22 @@
         fbq('trackCustom', 'Anon_Audience', { anon_cuid: anonId, audience_Id: cohortId });
         console.log('Sent custom event to pixel with params: ' + anonId + ', ' + cohortId);
         // WHere CAPI is implemented also POST to our Node server 
-        fetch('https://audiencelift.onrender.com:3000/', {
+        return fetch('https://audiencelift.onrender.com:3000/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 anon_cuid: anonId,
                 audience_id: cohortId
             })
-        });
-        console.log('Sent custom event to CAPI with the params: ' + anonId + ', ' + cohortId);
+        })
+        .then(response => {
+            if (!response.ok) {
+                 throw new Error(`HTTP error! status: ${response.status}`);
+                 console.log(`Error occured in S2S: ${response.status}`);
+            }
+            return response.json();
+         }
+         console.log('Sent custom event to CAPI with the params: ' + anonId + ', ' + cohortId);
       });
   })();
   </script>
