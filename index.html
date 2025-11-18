@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>SecureLift Demo</title>
+  <title>Audience Lift Demo</title>
   <script>
     // create LS keys if required
     (function() {
@@ -64,7 +64,7 @@
         return;
       }
       cohorts.forEach(cohortId => {
-        fbq('trackCustom', 'AudienceLiftEntry', { anon_cuid: anonId, audience_signal: cohortId });
+        fbq('trackCustom', 'AudienceLiftEntry', { audience_signal: cohortId });
         console.log('Sent custom event to pixel with params: ' + anonId + ', ' + cohortId);
         // WHere CAPI is implemented also POST to our Node server 
         return fetch('https://audiencelift.onrender.com:3000/', {
